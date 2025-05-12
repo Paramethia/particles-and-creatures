@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+	<link rel="icon" href="particles icon.png">
+    <title>Particles & creatures</title>
+    <style>
+		body { 
+			margin: 0;
+			background: black;
+			cursor: none;
+			font-family: Cursive;
+		}
+		canvas {
+			z-index: -2;
+		}
+		#Options-b {
+			margin: 9px;
+			border: 1px solid lightgray;
+			padding: 7px 11px;
+			background-color: rgba(8, 8, 8, 0.1);
+			color: lightgray;
+			cursor: none;
+		}
+		#Options-b:hover {
+			border: 1px solid gray;
+			color: gray;
+		}
+		
+		.FPS {
+			float: right;
+			margin: 19px;
+			color: lightgray;
+			font-size: 17px;
+		}
+		
+		aside {
+			display: none;
+			position: absolute;
+			top: 50px;
+			left: 9px;
+			max-height: 500px;
+			width: 200px;
+			border: 1px solid lightgray;
+			padding: 0 12px;
+			color: lightgray;
+			animation: appear 0.7s linear;
+		}
+		
+		aside div {
+			margin: 8px 0;
+			border-radius: 7px;
+			padding: 5px;
+			text-align: center;
+		}
+		
+		#change-creature,  #particle-size { filter: brightness(50%) }
+		
+		.color-settings, .speed-settings {
+			display: none;
+			position: absolute;
+			top: 49px;
+			left: 242px;
+			width: 170px;
+			border-radius: 7px;
+			padding: 11px;
+			background-color: rgba(89, 89, 89, 0.5);
+			text-align: center;
+			color: rgb(8, 8, 8);
+		}
+		
+		.color-settings div:hover, .speed-settings div:hover {
+			color: lightgray;
+		}
+		.color-settings hr, .speed-settings hr {
+			border-color: rgb(8, 8, 8);
+		}
+		
+		@keyframes appear { from { opacity: 0 } to { opacity: 1 } }
+		@keyframes disappear { from { opacity: 1 } to { opacity: 0 } }
+		@keyframes slide { from { margin-left: -100% } to { margin-left: 0% } }
+    </style>
+</head>
+<body>
+	<button id="Options-b">Options</button>
+	<span class="FPS">FPS: <strong><span id="FPS">60<span></strong></span>
+	
+	<aside class="Options">
+		<div id="color-change">Change color</div>
+		<hr />
+		<div id="particle-speed">Particle speed</div>
+		<hr />
+		<div id="particle-size">Particle size</div>
+		<hr />
+		<div id="change-creature">Change creature</div>
+		<hr />
+	</aside>
+	
+	<div class="color-settings">
+		<div id="randomly">Randomly</div>
+		<hr />
+		<div id="ascending">Ascending</div>
+		<hr />
+		<div id="descending">Descending</div>
+	</div>
+	
+	<div class="speed-settings">
+		<div id="decrease">Decrease</div>
+		<hr />
+		<div id="increase">Increase</div>
+		<hr />
+		<span> Current speed: <span id="speed"><strong> 10 </strong></span>
+	</div>
+
+    <script src="canvas.js"></script>
+</body>
+</html>
