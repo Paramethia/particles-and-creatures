@@ -219,7 +219,7 @@ const speedTxt = document.getElementById("speed");
 let speedMax = 2;
 let speedMin = speedMax / 2;
 
-let speed = speedMax * 10 / 2;
+let speed = 50;
 
 function updateSpeed(speedMax, speedMin) {
 	for (var particle in particles) {
@@ -229,25 +229,23 @@ function updateSpeed(speedMax, speedMin) {
 }
 
 decreaseB.onclick = () => {
-	if (speed !== 1) {
+	if (speed !== 0) {
 		speedMax -= 0.1;
 		speedMin -= 0.1;
-		speed--;
+		speed -= 5;
 		speedTxt.innerText = speed;
 		updateSpeed(speedMax, speedMin);
 	}
-	console.log("Max speed", speedMax);
 }
 
 increaseB.onclick = () => {
-	if (speed !== 20) {
+	if (speed !== 100) {
 		speedMax += 0.1;
 		speedMin += 0.1;
-		speed++;
+		speed += 5;
 		speedTxt.innerText = speed;
 		updateSpeed(speedMax, speedMin);
 	}
-	console.log("Max speed", speedMax);
 }
 
 //canvas.height = Math.max(window.innerWidth, window.innerWidth);
