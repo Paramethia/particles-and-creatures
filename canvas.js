@@ -222,6 +222,8 @@ let speedMin = speedMax / 2;
 let speed = 50;
 
 function updateSpeed(speedMax, speedMin) {
+	speedMax = Math.round(speedMax * 10) / 10;
+	speedMin = Math.round(speedMin * 10) / 10;
 	for (var particle in particles) {
 		particles[particle].speedY = Math.random() * speedMax - speedMin;
 		particles[particle].speedX = Math.random() * speedMax - speedMin;
