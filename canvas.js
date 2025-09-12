@@ -82,7 +82,7 @@ document.addEventListener("click", event => {
 	//removeParticles = true;
 	createDparticles();
 	
-	if (options.style.display === "block" && !options.contains(event.target) && event.target !== optionsB && !cConOpen && !sConOpen) {
+	if (options.style.display === "block" && !options.contains(event.target) && event.target !== optionsB && !cConOpen && !sConOpen && !szConOpen) {
 		options.style.display = "none";
 		optionsOpened = false;
 	}
@@ -158,6 +158,35 @@ particleSpeedB.onclick = () => {
 }
 particleSpeedB.onmouseover = () => { particleSpeedB.style.background = "rgba(89, 89, 89, 0.5)"  }
 particleSpeedB.onmouseout = () => { if (!sConOpen) particleSpeedB.style.background = "rgba(8, 8, 8, 0.1)"  }
+
+const particleSizeB = document.getElementById("particle-size");
+const sizeOptions = document.querySelector(".size-settings");
+let szConOpen = false;
+
+particleSizeB.onclick = () => {
+	switch(szConOpen) {
+		case false:
+			particleSizeB.style.background = "rgba(89, 89, 89, 0.5)";
+			sizeOptions.style.display = "block";
+			if (cConOpen) { 
+				colorChangeB.style.background = "rgba(8, 8, 8, 0.1)";
+				colorOptions.style.display = "none";
+				cConOpen = false;
+			} else if (sConOpen) {
+				particleSpeedB.style.background = "rgba(8, 8, 8, 0.1)";
+				speedOptions.style.display = "none";
+				sConOpen = false;
+			}
+		break;
+		case true:
+			particleSizeB.style.background = "rgba(8, 8, 8, 0.1)";
+			sizeOptions.style.display = "none";
+		break;
+	}
+	szConOpen = !szConOpen;
+}
+particleSizeB.onmouseover = () => { particleSizeB.style.background = "rgba(89, 89, 89, 0.5)"  }
+particleSizeB.onmouseout = () => { if (!szConOpen) particleSizeB.style.background = "rgba(8, 8, 8, 0.1)"  }
 
 // Color change functioning
 
