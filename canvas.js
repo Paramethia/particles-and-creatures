@@ -250,6 +250,46 @@ increaseB.onclick = () => {
 	}
 }
 
+// Particle size change functioning
+
+const randomizeSizeB = document.getElementById("randomize");
+const decreaseSizeB = document.getElementById("size-decrease");
+const increaseSizeB = document.getElementById("size-increase");
+
+const sizeTxt = document.getElementById("size");
+
+let pSize = 8;
+
+function updateSize(size) {
+	for (var particle in particles) {
+		particles[particle].size = size;
+	}
+	sizeTxt.innerText = size;
+}
+
+randomizeSizeB.onclick = () => {
+	for (var particle in particles) {
+		pSize = parseInt(Math.random() * 15);
+		if (pSize === 0) pSize++;
+		particles[particle].size = pSize;
+	}
+	sizeTxt.innerText = 'Random';
+}
+
+decreaseSizeB.onclick = () => { 
+	if (pSize > 1) {
+		pSize--;
+		updateSize(pSize);
+	}
+}
+ 
+increaseSizeB.onclick = () => {
+	if (pSize < 15) {
+		pSize++;
+		updateSize(pSize);
+	}
+}
+
 //canvas.height = Math.max(window.innerWidth, window.innerWidth);
 
 canvas.height = window.innerHeight;
