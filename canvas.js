@@ -124,6 +124,10 @@ colorChangeB.onclick = () => {
 				particleSpeedB.style.background = "rgba(8, 8, 8, 0.1)";
 				speedOptions.style.display = "none";
 				sConOpen = false;
+			} else if (szConOpen) {
+				particleSizeB.style.background = "rgba(8, 8, 8, 0.1)";
+				sizeOptions.style.display = "none";
+				szConOpen = false;
 			}
 		break;
 		case true:
@@ -147,6 +151,10 @@ particleSpeedB.onclick = () => {
 				colorChangeB.style.background = "rgba(8, 8, 8, 0.1)";
 				colorOptions.style.display = "none";
 				cConOpen = false;
+			} else if (szConOpen) {
+				particleSizeB.style.background = "rgba(8, 8, 8, 0.1)";
+				sizeOptions.style.display = "none";
+				szConOpen = false;
 			}
 		break;
 		case true:
