@@ -106,7 +106,7 @@ optionsB.onclick = () => {
 		[options, document.querySelector(".color-settings"), document.querySelector(".amount-settings"), document.querySelector(".size-settings"), document.querySelector(".speed-settings")].forEach(setting => setting.style.display = "none");
 		toggles.forEach((toggled, index) => { 
 			if (toggled) {
-				toggle = false;
+				toggled = false;
 				buttons[index].style.background = "rgba(8, 8, 8, 0.1)"
 			}
 		});
@@ -195,7 +195,7 @@ function changeDescending() {
 	framesTxt.style.color = color;
 }
 
-// Particle amount functioning
+// Particle amount change functioning
 
 const amountTxt = document.getElementById("amount");
 let amount = 20;
@@ -266,7 +266,6 @@ let speed = speedX * 100 / 2 / 2;
 function updateSpeed(speedX, speedY) {
 	speedX = Math.round(speedX * 10) / 10;
 	speedY = Math.round(speedY * 10) / 10;
-	console.log(speedX, speedY);
 	for (var particle in particles) {
 		particles[particle].speedY = Math.random() * speedX - speedY;
 		particles[particle].speedX = Math.random() * speedX - speedY;
