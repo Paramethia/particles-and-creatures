@@ -459,7 +459,6 @@ function particlation() {
 // Make particles appear on initial page load
 
 function init() {
-	let amount = 52;
 	for(var particle = 0; particle < amount; particle++) {
 		particles.push(new Particle());
 		particles[particle].x = Math.random() * canvas.width;
