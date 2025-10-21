@@ -338,8 +338,8 @@ class Particle {
 		this.y = Input.mouse.y;
 		// To make particle appear at random places in the canvas: Math.random() * canvas.height; To make make it appear at mouse postion: Input.mouse.y
 		this.size = 7; // Randomize: Math.random() * 7 + 1;
-		this.speedX = Math.random() * speedMax - speedMin;
-		this.speedY = Math.random() * speedMax - speedMin;
+		this.speedX = Math.random() * speedX - speedY;
+		this.speedY = Math.random() * speedX - speedY;
 		this.minSize = undefined;
 		this.remove = false;
 	}
