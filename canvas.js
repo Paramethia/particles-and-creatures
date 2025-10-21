@@ -15,8 +15,6 @@ window.addEventListener("resize", function() {
 	showCentipede = windowWidth >= 700;
 	canvas.width = Math.max(windowWidth, windowWidth);
 	canvas.height = windowHeight;
-	
-	//if (showCentipede && !centipede) centipede = initializeCentipede();
 });
 
 // Document (page) event listening
@@ -31,11 +29,7 @@ let Input = {
     y: 0
   }
 };
-/*
-for (var i = 0; i < 230; i++) {
-    Input.keys.push(false);
-}
-*/
+
 document.addEventListener("keydown", function(event) {
     Input.keys[event.keyCode] = true;
 });
@@ -67,24 +61,23 @@ document.addEventListener("mouseup", function(event) {
 document.addEventListener("mousemove", function(event) {
     Input.mouse.x = event.x;
     Input.mouse.y = event.y;
-	// Make 1 particle appear
-	//particles.push(new Particle());
-	// Make 2 or more particles appear
-    //createParticles();
 });
 document.addEventListener("click", event => {
 	bounceSound.play();
 	Input.mouse.x = event.x;
 	Input.mouse.y = event.y;
-	// Make 1 particle appear
-	//particles.push(new Particle());
-	// Make 2 or more particles appear
-	//removeParticles = true;
 	createDparticles();
 	
-	if (options.style.display === "block" && !options.contains(event.target) && event.target !== optionsB && !cConOpen && !sConOpen && !szConOpen) {
+	if (options.style.display === "block" && !options.contains(event.target) && event.target !== optionsB && settings.every(setting => !setting.contains(event.target))){
+		settings.forEach((setting, index) => {
+			if (toggles[index]) { 
+				settings[index].style.display = "none";
+				toggles[index] = false;
+			}
+		});
+		
 		options.style.display = "none";
-		optionsOpened = false;
+		optionOpened = false;
 	}
 });
 
@@ -95,112 +88,74 @@ document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
 canvas.width = Math.max(window.innerWidth, window.innerWidth);
 canvas.style.backgroundColor = "rgb(8, 8, 8)";
+canvas.height = window.innerHeight;
+canvas.style.position = "absolute";
+canvas.style.left = "0px";
+canvas.style.top = "0px";
 
 //                        Options
 
-const optionsB = document.getElementById("Options-b");
+const optionsB = document.getElementById("options-b");
 const options = document.querySelector(".Options");
-
-const colorChangeB = document.getElementById("color-change");
-const colorOptions = document.querySelector(".color-settings");
-let cConOpen = false;
 
 let optionsOpened = false;
 
 optionsB.onclick = () => {
-	optionsOpened ? options.style.display = "none" : options.style.display = "block"
 	optionsOpened = !optionsOpened;
-}
-
-colorChangeB.onmouseover = () => { colorChangeB.style.background = "rgba(89, 89, 89, 0.5)"  }
-colorChangeB.onmouseout = () => { if (!cConOpen) colorChangeB.style.background = "rgba(8, 8, 8, 0.1)"  }
-
-colorChangeB.onclick = () => {
-	switch(cConOpen) {
-		case false:
-			colorChangeB.style.background = "rgba(89, 89, 89, 0.5)";
-			colorOptions.style.display = "block";
-			if (sConOpen) { 
-				particleSpeedB.style.background = "rgba(8, 8, 8, 0.1)";
-				speedOptions.style.display = "none";
-				sConOpen = false;
-			} else if (szConOpen) {
-				particleSizeB.style.background = "rgba(8, 8, 8, 0.1)";
-				sizeOptions.style.display = "none";
-				szConOpen = false;
+	if (!optionsOpened) { 
+		[options, document.querySelector(".color-settings"), document.querySelector(".amount-settings"), document.querySelector(".size-settings"), document.querySelector(".speed-settings")].forEach(setting => setting.style.display = "none");
+		toggles.forEach((toggled, index) => { 
+			if (toggled) {
+				toggle = false;
+				buttons[index].style.background = "rgba(8, 8, 8, 0.1)"
 			}
-		break;
-		case true:
-			colorChangeB.style.background = "rgba(8, 8, 8, 0.1)";
-			colorOptions.style.display = "none";
-		break;
+		});
+		options.style.display = "none";
+	} else { 
+		options.style.display = "block" 
 	}
-	cConOpen = !cConOpen;
 }
 
-const particleSpeedB = document.getElementById("particle-speed");
-const speedOptions = document.querySelector(".speed-settings");
-let sConOpen = false;
+const buttons = [
+	document.getElementById("color-change"), 
+	document.getElementById("particle-amount"), 
+	document.getElementById("particle-size"), 
+	document.getElementById("particle-speed")
+];
+const settings = [
+	document.querySelector(".color-settings"),
+	document.querySelector(".amount-settings"),
+	document.querySelector(".size-settings"),
+	document.querySelector(".speed-settings")
+];
+const toggles = [false, false, false, false];
 
-particleSpeedB.onclick = () => {
-	switch(sConOpen) {
-		case false:
-			particleSpeedB.style.background = "rgba(89, 89, 89, 0.5)";
-			speedOptions.style.display = "block";
-			if (cConOpen) { 
-				colorChangeB.style.background = "rgba(8, 8, 8, 0.1)";
-				colorOptions.style.display = "none";
-				cConOpen = false;
-			} else if (szConOpen) {
-				particleSizeB.style.background = "rgba(8, 8, 8, 0.1)";
-				sizeOptions.style.display = "none";
-				szConOpen = false;
+buttons.forEach((button, index) => {
+	button.onmouseover = () => { button.style.background = "rgba(89, 89, 89, 0.5)" };
+	button.onmouseout = () => { if (!toggles[index]) button.style.background = "rgba(8, 8, 8, 0.1)" };
+	
+	button.onclick = () => {
+		toggles[index] = !toggles[index];
+		
+		for (let i = 0; i < buttons.length; i++) { 
+			if (i !== index && toggles[i]) {
+				toggles[i] = false;
+				buttons[i].style.background = "rgba(8, 8, 8, 0.1)";
+				settings[i].style.display = "none";
 			}
-		break;
-		case true:
-			particleSpeedB.style.background = "rgba(8, 8, 8, 0.1)";
-			speedOptions.style.display = "none";
-		break;
+		};
+		
+		if (toggles[index]) {
+			button.style.background = "rgba(89, 89, 89, 0.5)";
+			settings[index].style.display = "block";
+		} else {
+			button.style.background = "rgba(8, 8, 8, 0.1)";
+			settings[index].style.display = "none";
+		}
 	}
-	sConOpen = !sConOpen;
-}
-particleSpeedB.onmouseover = () => { particleSpeedB.style.background = "rgba(89, 89, 89, 0.5)"  }
-particleSpeedB.onmouseout = () => { if (!sConOpen) particleSpeedB.style.background = "rgba(8, 8, 8, 0.1)"  }
-
-const particleSizeB = document.getElementById("particle-size");
-const sizeOptions = document.querySelector(".size-settings");
-let szConOpen = false;
-
-particleSizeB.onclick = () => {
-	switch(szConOpen) {
-		case false:
-			particleSizeB.style.background = "rgba(89, 89, 89, 0.5)";
-			sizeOptions.style.display = "block";
-			if (cConOpen) { 
-				colorChangeB.style.background = "rgba(8, 8, 8, 0.1)";
-				colorOptions.style.display = "none";
-				cConOpen = false;
-			} else if (sConOpen) {
-				particleSpeedB.style.background = "rgba(8, 8, 8, 0.1)";
-				speedOptions.style.display = "none";
-				sConOpen = false;
-			}
-		break;
-		case true:
-			particleSizeB.style.background = "rgba(8, 8, 8, 0.1)";
-			sizeOptions.style.display = "none";
-		break;
-	}
-	szConOpen = !szConOpen;
-}
-particleSizeB.onmouseover = () => { particleSizeB.style.background = "rgba(89, 89, 89, 0.5)"  }
-particleSizeB.onmouseout = () => { if (!szConOpen) particleSizeB.style.background = "rgba(8, 8, 8, 0.1)"  }
+});
 
 // Color change functioning
-
-const randomizeB = document.getElementById("randomly");
-const ascensionB = document.getElementById("ascending");
-const descensionB = document.getElementById("descending");
 
 let colors = [
 	"rgba(225, 0, 0, 0.7)", "rgba(100, 0, 0, 0.7)", "rgba(208 ,49, 45, 0.7)", "rgba(153, 15, 4, 0.7)", "rgba(95, 10, 3, 255)", "rgba(76, 8, 5, 0.7)", "rgba(66, 13, 9, 0.7)", "rgba(94, 24, 22, 0.7)", // red, darkred, lightred, cherry, garenet, wine, mahogany, sangria
@@ -240,58 +195,30 @@ function changeDescending() {
 	framesTxt.style.color = color;
 }
 
-randomizeB.onclick = () => { changeRandomly() }
+// Particle amount functioning
 
-ascensionB.onclick = () => { changeAscending() }
+const amountTxt = document.getElementById("amount");
+let amount = 20;
 
-descensionB.onclick = () => { changeDescending() }
-
-// Particle speed change functioning 
-
-const decreaseB = document.getElementById("decrease");
-const increaseB = document.getElementById("increase");
-
-const speedTxt = document.getElementById("speed");
-
-let speedMax = 2;
-let speedMin = speedMax / 2;
-
-let speed = 50;
-
-function updateSpeed(speedMax, speedMin) {
-	speedMax = Math.round(speedMax * 10) / 10;
-	speedMin = Math.round(speedMin * 10) / 10;
-	for (var particle in particles) {
-		particles[particle].speedY = Math.random() * speedMax - speedMin;
-		particles[particle].speedX = Math.random() * speedMax - speedMin;
+function decreaseAmount() {
+	if (amount >= 10) {
+		particles = [];
+		amount -= 5;
+		init();
+		amountTxt.innerText = amount;
 	}
 }
 
-decreaseB.onclick = () => {
-	if (speed !== 0) {
-		speedMax -= 0.1;
-		speedMin -= 0.1;
-		speed -= 5;
-		speedTxt.innerText = speed;
-		updateSpeed(speedMax, speedMin);
-	}
-}
-
-increaseB.onclick = () => {
-	if (speed !== 100) {
-		speedMax += 0.1;
-		speedMin += 0.1;
-		speed += 5;
-		speedTxt.innerText = speed;
-		updateSpeed(speedMax, speedMin);
+function increaseAmount() {
+	if (amount < 40) {
+		particles = [];
+		amount += 5;
+		init();
+		amountTxt.innerText = amount;
 	}
 }
 
 // Particle size change functioning
-
-const randomizeSizeB = document.getElementById("randomize");
-const decreaseSizeB = document.getElementById("size-decrease");
-const increaseSizeB = document.getElementById("size-increase");
 
 const sizeTxt = document.getElementById("size");
 
@@ -304,7 +231,7 @@ function updateSize(size) {
 	sizeTxt.innerText = size;
 }
 
-randomizeSizeB.onclick = () => {
+function randomSize() {
 	for (var particle in particles) {
 		pSize = parseInt(Math.random() * 15);
 		if (pSize === 0) pSize++;
@@ -313,26 +240,58 @@ randomizeSizeB.onclick = () => {
 	sizeTxt.innerText = 'Random';
 }
 
-decreaseSizeB.onclick = () => { 
+function decreaseSize() { 
 	if (pSize > 1) {
 		pSize--;
 		updateSize(pSize);
 	}
 }
  
-increaseSizeB.onclick = () => {
+function increaseSize() {
 	if (pSize < 15) {
 		pSize++;
 		updateSize(pSize);
 	}
 }
 
-//canvas.height = Math.max(window.innerWidth, window.innerWidth);
+// Particle speed change functioning 
 
-canvas.height = window.innerHeight;
-canvas.style.position = "absolute";
-canvas.style.left = "0px";
-canvas.style.top = "0px";
+const speedTxt = document.getElementById("speed");
+
+let speedX = 2;
+let speedY = speedX / 2;
+
+let speed = speedX * 100 / 2 / 2;
+
+function updateSpeed(speedX, speedY) {
+	speedX = Math.round(speedX * 10) / 10;
+	speedY = Math.round(speedY * 10) / 10;
+	console.log(speedX, speedY);
+	for (var particle in particles) {
+		particles[particle].speedY = Math.random() * speedX - speedY;
+		particles[particle].speedX = Math.random() * speedX - speedY;
+	}
+}
+
+function decreaseSpeed() {
+	if (speed !== 0) {
+		speedX -= 0.1;
+		speedY -= 0.1;
+		speed -= 5;
+		speedTxt.innerText = speed;
+		updateSpeed(speedX, speedY);
+	};
+}
+
+ function increaseSpeed() {
+	if (speed !== 100) {
+		speedX += 0.1;
+		speedY += 0.1;
+		speed += 5;
+		speedTxt.innerText = speed;
+		updateSpeed(speedX, speedY);
+	}
+}
 
 //            Particles set up
 
